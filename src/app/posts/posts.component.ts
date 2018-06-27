@@ -1,7 +1,7 @@
 import { BadRequestError } from '../common/bad-request-error';
 import { NotFoundError } from '../common/not-found-error';
 import { AppError } from '../common/app-error';
-import { PostService } from '../services/post.service';
+import { PostService } from './post.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -23,7 +23,7 @@ export class PostsComponent implements OnInit {
     this.service.create(post).subscribe(
       response => {
         title.value = '';
-        post['id'] = response.id;
+      //  post['id'] = response.id;
         this.posts.splice(0, 0, post);
       },
       (error: AppError) => {

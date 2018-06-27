@@ -1,25 +1,27 @@
-import { AppErrorHandler } from './common/app-error-handler';
-import { PostService } from './services/post.service';
-import { HttpModule } from '@angular/http';
-import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
-
-import { AppComponent } from './app.component';
-import { PostsComponent } from './posts/posts.component';
-
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule, ErrorHandler} from '@angular/core';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import {AppErrorHandler} from './common/app-error-handler';
+import {AppComponent} from './app.component';
+import {PostsComponent} from './posts/posts.component';
+import {PostService} from './posts/post.service'
+import {AuthInterceptor} from "./services/auth.interceptor";
 @NgModule({
-  declarations: [
-    AppComponent,
-    PostsComponent
-  ],
+  declarations: [AppComponent,PostsComponent],
   imports: [
-    BrowserModule,
-    HttpModule
+    BrowserModule, HttpClientModule
   ],
   providers: [
     PostService,
-    {provide: ErrorHandler, useClass: AppErrorHandler}
+    {
+      provide: ErrorHandler,
+      useClass: AppErrorHandler
+    }, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
